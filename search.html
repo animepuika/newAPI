@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #130f40;
+        padding: 20px;
+        color: #ffffff;
+    }
+    h1 {
+        color: whitesmoke;
+        margin-left: 35%;
+    }
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    li {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    li:last-child {
+        border-bottom: none;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    .back-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 20px;
+        text-decoration: none;
+        color: #130f40;
+        font-weight: bold;
+    }
+
+    .back-button:hover {
+        background-color: #e6e6e6;
+    }
+
+     .text {
+        color: black;
+    }
+
+    h1 {
+        margin-left: 42%;
+    }
+</style>
+<body>
+<button class="back-button" onclick="goBack()">Back</button>
+
+<h1>Search Results</h1>
+
+<ul id="moviesList"></ul>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+
+    // Get the search results from the URL query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const resultsParam = urlParams.get('results');
+    const movies = JSON.parse(decodeURIComponent(resultsParam));
+
+    const moviesList = document.getElementById('moviesList');
+    
+    
+
+    // Display each movie in the list
+    movies.forEach(movie => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <h3 class="text">${movie.Title}</h3>
+            <p class="text">Year: ${movie.Year}</p>
+            <p class="text">Type: ${movie.Type}</p>
+            <img src="${movie.Poster}" alt="${movie.Title} poster">
+        `;
+        moviesList.appendChild(li);
+    });
+</script>
+</body>
+</html>
+

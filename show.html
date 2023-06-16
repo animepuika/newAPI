@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Search</title>
+</head>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .Press {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        left: 38.5%;
+        top: 33%;
+        color: beige;
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    body {
+        margin: 0px;
+        padding: 0px;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #130f40;
+        font-family: 'Lato' !important;
+    }
+
+    .input-search {
+        height: 50px;
+        width: 50px;
+        border-style: none;
+        padding: 10px;
+        font-size: 18px;
+        letter-spacing: 2px;
+        outline: none;
+        border-radius: 25px;
+        transition: all .5s ease-in-out;
+        background-color: white;
+        padding-right: 40px;
+        color: #fff;
+    }
+
+    .input-search::placeholder {
+        color: rgba(255, 255, 255, .5);
+        font-size: 18px;
+        letter-spacing: 2px;
+        font-weight: 100;
+    }
+
+    .btn-search {
+        width: 50px;
+        height: 50px;
+        border-style: none;
+        font-size: 20px;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+        border-radius: 50%;
+        position: absolute;
+        right: 0px;
+        color: #ffffff;
+        background-color: transparent;
+        pointer-events: painted;
+    }
+
+    .btn-search:focus~.input-search {
+        width: 400px;
+        border-radius: 0px;
+        background-color: transparent;
+        border-bottom: 1px solid rgba(255, 255, 255, .5);
+        transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+    }
+
+    .input-search:focus {
+        width: 400px;
+        border-radius: 0px;
+        background-color: transparent;
+        border-bottom: 1px solid rgba(255, 255, 255, .5);
+        transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+    }
+</style>
+
+<body>
+<div class="Press">
+    <h>Press the 'Circle' to Search</h>
+</div>
+
+<input type="text" id="searchInput" class="input-search" placeholder="Title of The Movie">
+<button id="searchButton" class="btn-search"><i class="fas fa-search"></i></button>
+
+<script>
+    const searchInput = document.getElementById('searchInput');
+    
+
+    searchInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            searchMovies();
+        }
+    });
+
+    function searchMovies() {
+        const query = searchInput.value.trim();
+        if (query !== '') {
+            const apiKey = 'af4bc479'; // Replace with your own API key
+            const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${encodeURIComponent(query)}`;
+
+            // Fetch the search results from the API
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.Search) {
+                        const movies = data.Search;
+
+                        // Pass the search results to the search-results.html page
+                        const encodedResults = encodeURIComponent(JSON.stringify(movies));
+                        const searchResultsUrl = `search.html?results=${encodedResults}`;
+                        window.location.href = searchResultsUrl;
+                    } else {
+                        console.log('No results found.');
+                    }
+                })
+                .catch(error => console.log(error));
+        }
+    }
+</script>
+</body>
+</html>
+
+
